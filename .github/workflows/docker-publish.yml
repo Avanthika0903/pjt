@@ -15,27 +15,25 @@ jobs:
   build_and_create_instance:
     runs-on: ubuntu-latest
 
-    steps:
+   steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-ce=5:20.10.12~3-0~ubuntu-focal docker-ce-cli=5:20.10.12~3-0~ubuntu-focal containerd.io
 
       - name: Build Docker Image
         run: |
           docker build -t ${{ env.DOCKER_USERNAME }}/wlcompetency:${{ github.sha }} .
-
-      - name: Log in to Docker Hub
+       
+      # - name: Log in to Docker Hub
+      #   run: docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }}
+      - name: Run Docker Container
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: Push Docker Image
-        run: |
-          docker push ${{ env.DOCKER_USERNAME }}/wlcompetency:${{ github.sha }}
-
+          docker run -d -p 8080:80 ${{ env.DOCKER_USERNAME }}/wlcompetency:${{ github.sha }}
+      
+      - name: Check Running Containers
+        run: docker ps
+      # - name: Push Docker Image
+      #   run: |
+      #     docker push ${{ env.DOCKER_USERNAME }}/wlcompetency:${{ github.sha }}
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v1
         with:
