@@ -15,4 +15,4 @@ COPY --from=build app/dist/pjt /usr/share/nginx/html
   
 EXPOSE 80
 COPY --from=puppet /opt/puppetlabs/bin/puppet /usr/local/bin/puppet
-RUN puppet apply /path/to/your/puppet_file.pp
+RUN puppet apply sample.pp
