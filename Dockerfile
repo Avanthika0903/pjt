@@ -14,5 +14,5 @@ FROM nginx:alpine
 COPY --from=build app/dist/pjt /usr/share/nginx/html
   
 EXPOSE 80
-COPY --from=puppet /opt/puppetlabs/bin/puppet /usr/local/bin/puppet
-RUN puppet apply sample.pp
+COPY sample.pp /sample.pp
+RUN puppet apply /sample.pp
