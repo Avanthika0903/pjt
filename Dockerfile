@@ -14,7 +14,7 @@ FROM nginx:alpine
 COPY --from=build app/dist/pjt /usr/share/nginx/html
   
 EXPOSE 80
-
+FROM ubuntu:latest
 RUN apt-get update && \
     apt-get install -y wget && \
     apt-get clean
