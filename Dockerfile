@@ -48,8 +48,8 @@ EXPOSE 80
 # Run Puppet apply to execute your Puppet file
 RUN puppet apply /sample.pp
 RUN terraform init 
-RUN terraform plan
-RUN terraform apply -auto-approve
+# RUN terraform plan
+# RUN terraform apply -auto-approve
 
 # FROM node:18 as build
 
