@@ -26,6 +26,13 @@ RUN wget https://apt.puppetlabs.com/puppet6-release-bionic.deb && \
     apt-get install -y puppet-agent && \
     apt-get clean
 
+# Download Terraform
+ARG TERRAFORM_VERSION="1.0.8"
+RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    mv terraform /usr/local/bin/terraform && \
+    rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+
 # Set environment variables to ensure Puppet binaries are in the PATH
 ENV PATH="/opt/puppetlabs/bin:${PATH}"
 
@@ -40,6 +47,7 @@ EXPOSE 80
 
 # Run Puppet apply to execute your Puppet file
 RUN puppet apply /sample.pp
+RUN terraform init && terraform apply -auto-approve
 
 # FROM node:18 as build
 
